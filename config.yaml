@@ -1,0 +1,7 @@
+height: 200
+width: 50
+max_length: 5
+downsample_factor: 4
+
+
+batch_size: 32
