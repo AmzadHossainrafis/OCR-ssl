@@ -5,3 +5,4 @@ downsample_factor: 4
 
 
 batch_size: 32
+split_ratio: 0.8
