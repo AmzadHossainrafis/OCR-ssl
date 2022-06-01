@@ -22,6 +22,13 @@ class DataLoader(tf.keras.utils.Sequence):
         return int(np.ceil(len(self.dataS) / float(self.batch_size)))
 
     def __getitem__(self, idx) -> tuple:
+        batch_x = self.dataS[idx * self.batch_size:(idx + 1) * self.batch_size]
+        batch_lable = self.labels[idx * self.batch_size:(idx + 1) * self.batch_size]
+
+
+        #fro loop for img 
+
+        #for loop fro lable
 
 
         return img , lable

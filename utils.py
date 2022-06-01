@@ -7,8 +7,8 @@ import tensorflow as tf
 import cv2
 from PIL import Image
 from tensorflow.keras import layers
-
-
+from tensorflow import  keras
+import math
 
 def read_yaml(path='config.yaml'):
     """
@@ -95,4 +95,65 @@ def data_preprocess(images, labels,characters):
     char_to_num(label)
     return {"image": img, "label": label}
 
+
+
+class SelectCallbacks(keras.callbacks.Callback):
+    def __init__(self,config= read_yaml()):
+        """
+        Summary:
+            callback class for validation prediction and create the necessary callbacks objects
+        Arguments:
+            val_dataset (object): MyDataset class object
+            model (object): keras.Model object
+            config (dict): configuration dictionary
+        Return:
+            class object
+        """
+
+
+
+        super(keras.callbacks.Callback, self).__init__()
+        self.config = config
+        self.callbacks = []
+
+    def lr_scheduler(self, epoch):
+        """
+        Summary:
+            learning rate decrease according to the model performance
+        Arguments:
+            epoch (int): current epoch
+        Return:
+            learning rate
+        """
+
+
+        drop = 0.5
+        epoch_drop = self.config['epochs'] / 8.
+        lr = self.config['learning_rate'] * math.pow(drop, math.floor((1 + epoch) / epoch_drop))
+        return lr
+
+
+    def get_callbacks(self):
+        """
+        Summary:
+            creating callbacks based on configuration
+        Arguments:
+            val_dataset (object): MyDataset class object
+            model (object): keras.Model class object
+        Return:
+            list of callbacks
+        """
+
+
+        
+        if self.config['csv']:
+            self.callbacks.append(keras.callbacks.CSVLogger(os.path.join(self.config['csv_log_dir'], self.config['csv_log_name']), separator = ",", append = False))
+        if self.config['checkpoint']:
+            self.callbacks.append(keras.callbacks.ModelCheckpoint(filepath=self.config['checkpoint_dir']+"next_frame_prediction.hdf5", save_best_only = True))
+        if self.config['lr']:
+            self.callbacks.append(keras.callbacks.LearningRateScheduler(schedule = self.lr_scheduler))
+        
+        
+        
+        return self.callbacks
 
