@@ -19,3 +19,4 @@ val_ds=Dataloader(config['batch_size'],val_data)
 history=model.fit(train_ds, validation_data=val_ds, epochs=config['epochs'], callbacks=callbacks)
 
 
+
