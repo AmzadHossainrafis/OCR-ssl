@@ -1,6 +1,5 @@
 
 from utils import read_yaml,SelectCallbacks,read_img_lables,split_data
-
 from dataloader import DataLoader
 import numpy as np
 from model import *
@@ -10,15 +9,9 @@ model=build_model()
 callbacks=SelectCallbacks()
 
 data,labels,characters=read_img_lables()
-
 x_train, x_valid, y_train, y_valid = split_data(np.array(data), np.array(labels))
-#train dataloader 
-train_ds=Dataloader(config['batch_size'],x_train,y_train,characters)
 
-#valloader
-val_ds=Dataloader(config['batch_size'],x_valid,y_valid,characters)
+train_ds = DataLoader(batch_size=config["batch_size"],data=x_train, labels= y_train,characters=characters)
+valid_ds = DataLoader(batch_size=config["batch_size"],data=x_valid, labels= y_valid,characters=characters)
 
-history=model.fit(train_ds, validation_data=val_ds, epochs=config['epochs'], callbacks=callbacks)
-
-
-
+history=model.fit(train_ds,validation_data=valid_ds,epochs=config["epochs"],callbacks=callbacks)
