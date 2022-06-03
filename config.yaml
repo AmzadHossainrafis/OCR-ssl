@@ -13,6 +13,7 @@ learning_rate: 0.001
 csv_log_dir: ./logs/csv
 checkpoint_dir: ./logs/checkpoints
 csv_log_name: log.csv
+model_dir : 
 
 csv : True
 checkpoint : True
@@ -21,4 +22,3 @@ lr : True
 padding: same 
 activation: relu
 kernel_initializer: he_normal
-
