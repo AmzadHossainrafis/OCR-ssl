@@ -1,12 +1,13 @@
-import numpy as np
 import os 
-import yaml
-from pathlib import Path
-import tensorflow as tf
 import cv2
-from tensorflow.keras import layers
+import yaml
+import numpy as np
+import tensorflow as tf
 from tensorflow import  keras
+from pathlib import Path
+from tensorflow.keras import layers
 import math
+import matplotlib.pyplot as plt
 
 def read_yaml(path='config.yaml'):
     """
@@ -157,3 +158,15 @@ class SelectCallbacks(keras.callbacks.Callback):
         
         return self.callbacks
 
+def plot_loss(history):
+    """
+    plot the loss history
+    """
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    #plt.savefig(r"C:\Users\Amzad\Desktop\keras_project\denoiser_encoder\logs\Prediction\loss.png")
+    plt.show()
