@@ -1,15 +1,6 @@
 
-from pyexpat import model
 from utils import * 
-import numpy as np
-import cv2
-from model import *
-
-
-data,labels,characters=read_img_lables()
-
-x_train, x_valid, y_train, y_valid = split_data(np.array(data), np.array(labels))
-
+config=read_yaml()
 
 class DataLoader(tf.keras.utils.Sequence):
     def __init__(self,batch_size,data,labels,characters) :
@@ -20,7 +11,7 @@ class DataLoader(tf.keras.utils.Sequence):
 
 
     def __data_preprocess(self,images, labels,characters):
-        """da
+        """
         Preprocess the images and labels.
         :param images: The images.
         :param labels: The labels.
@@ -32,11 +23,11 @@ class DataLoader(tf.keras.utils.Sequence):
         char_to_num = layers.StringLookup(vocabulary=list(characters), mask_token=None)
         img = tf.io.read_file(images)
         # 2. Decode and convert to grayscale
-        img = tf.io.decode_png(img, channels=1)
+        img = tf.io.decode_png(img, channels=config["chennel"])
         # 3. Convert to float32 in [0, 1] range
         img = tf.image.convert_image_dtype(img, tf.float32)
         # 4. Resize to the desired size
-        img = tf.image.resize(img, [img_height, img_width])
+        img = tf.image.resize(img, [config['height'], config['width']])
         # 5. Transpose the image because we want the time
         # dimension to correspond to the width of the image.
         img = tf.transpose(img, perm=[1, 0, 2])
@@ -62,17 +53,6 @@ class DataLoader(tf.keras.utils.Sequence):
             lab[i]=lable
             
 
-        return ([img,lab] , None)# get
+        return ([img,lab] , None)# this model take 2 input(img and lab) at once for ctc loss claculation 
 
 
-if __name__ == '__main__':
-# create a dataloader object
-    train_ds = DataLoader(batch_size=16,data=x_train,labels=y_train,characters=characters)
-    # create a generator object
-    x,y=train_ds[0]
-
-
-    val_ds= DataLoader(batch_size=16,data=x_valid,labels=y_valid,characters=characters)
-    model=build_model()
-
-    model.fit(train_ds, validation_data=val_ds, epochs=100)
