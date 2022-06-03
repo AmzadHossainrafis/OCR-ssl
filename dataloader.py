@@ -53,25 +53,26 @@ class DataLoader(tf.keras.utils.Sequence):
         batch_lable = self.labels[idx * self.batch_size:(idx + 1) * self.batch_size] # get the batch of labels
 
         img=np.zeros((self.batch_size,200,50,1)) # create a numpy array of zeros to hold the images
-        lables=[]
-        sub=[]
+        lab=np.zeros((self.batch_size,5))
+ 
         #fro loop for img and lables 
         for i in range(len(batch_x)):
             imgs,lable=self.__data_preprocess(batch_x[i],batch_lable[i],self.characters)
             img[i]=imgs
-            lables.append(lable)
+            lab[i]=lable
+            
 
-        return ([img,lables] , None)# get
+        return ([img,lab] , None)# get
 
 
 if __name__ == '__main__':
 # create a dataloader object
-    train_ds = DataLoader(batch_size=2,data=x_train,labels=y_train,characters=characters)
+    train_ds = DataLoader(batch_size=16,data=x_train,labels=y_train,characters=characters)
     # create a generator object
     x,y=train_ds[0]
 
 
-    val_ds= DataLoader(batch_size=2,data=x_valid,labels=y_valid,characters=characters)
+    val_ds= DataLoader(batch_size=16,data=x_valid,labels=y_valid,characters=characters)
     model=build_model()
 
-    model.fit(train_ds, validation_data=val_ds, epochs=10)
+    model.fit(train_ds, validation_data=val_ds, epochs=100)
