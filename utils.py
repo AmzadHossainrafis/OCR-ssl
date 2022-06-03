@@ -1,11 +1,9 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import os 
 import yaml
 from pathlib import Path
 import tensorflow as tf
 import cv2
-from PIL import Image
 from tensorflow.keras import layers
 from tensorflow import  keras
 import math
@@ -24,7 +22,7 @@ def read_yaml(path='config.yaml'):
 
 
 
-def read_img_lables(path):
+def read_img_lables():
     """
     Reads the images and labels from the given path.
     args: path(str) The path to the images and labels.
@@ -33,9 +31,11 @@ def read_img_lables(path):
 
     """
     data_dir = Path("./data/captcha_images_v2/")
-    images_dir = [map(str, list(data_dir.glob("*.png")))]
+
+# Get list of all the images
+    images_dir = sorted(list(map(str, list(data_dir.glob("*.png")))))
     labels = []
-    for i in os.listdir(path):
+    for i in sorted(os.listdir(data_dir)):
         m=i.split(".png")[0]
         labels.append(m)
     characters = set(char for label in labels for char in label)

@@ -2,25 +2,39 @@ import tensorflow as tf
 from tensorflow import  keras
 from tensorflow.keras import layers
 from Ctc import CTCLayer,CTCLoss
-img_width=300
+img_width=200
 img_height=50
-
 
 
 
 
 def build_model():
     # Inputs to the model
-    input_img = layers.Input(shape=(img_width, img_height, 1), name="image", dtype="float32"
+    input_img = layers.Input(
+        shape=(img_width, img_height, 1), name="image", dtype="float32"
     )
     labels = layers.Input(name="label", shape=(None,), dtype="float32")
 
     # First conv block
-    x = layers.Conv2D( 32,(3, 3),activation="relu",kernel_initializer="he_normal",padding="same", name="Conv1",)(input_img)
+    x = layers.Conv2D(
+        32,
+        (3, 3),
+        activation="relu",
+        kernel_initializer="he_normal",
+        padding="same",
+        name="Conv1",
+    )(input_img)
     x = layers.MaxPooling2D((2, 2), name="pool1")(x)
 
     # Second conv block
-    x = layers.Conv2D(64,(3, 3),activation="relu",kernel_initializer="he_normal",padding="same",name="Conv2",)(x)
+    x = layers.Conv2D(
+        64,
+        (3, 3),
+        activation="relu",
+        kernel_initializer="he_normal",
+        padding="same",
+        name="Conv2",
+    )(x)
     x = layers.MaxPooling2D((2, 2), name="pool2")(x)
 
     # We have used two max pool with pool size and strides 2.
@@ -37,7 +51,8 @@ def build_model():
     x = layers.Bidirectional(layers.LSTM(64, return_sequences=True, dropout=0.25))(x)
 
     # Output layer
-    x = layers.Dense(19 + 1, activation="softmax", name="dense2"
+    x = layers.Dense(
+        50, activation="softmax", name="dense2"
     )(x)
 
     # Add CTC layer for calculating CTC loss at each step
