@@ -3,11 +3,12 @@ from utils import *
 config=read_yaml()
 
 class DataLoader(tf.keras.utils.Sequence):
-    def __init__(self,batch_size,data,labels,characters) :
+    def __init__(self,batch_size,data,labels,characters,CTC) :
         self.batch_size = batch_size
         self.dataS = data
         self.labels = labels
         self.characters = characters
+        self.CTC=CTC
 
 
     def __data_preprocess(self,images, labels,characters):
@@ -52,7 +53,8 @@ class DataLoader(tf.keras.utils.Sequence):
             img[i]=imgs
             lab[i]=lable
             
+        if self.CTC:
+            return ([img,lab],None)# this model take 2 input(img and lab) at once for ctc loss claculation 
 
-        return ([img,lab] , None)# this model take 2 input(img and lab) at once for ctc loss claculation 
-
-
+        else:
+            return img, lab #if the ctc loss is passed in copiler as loss
