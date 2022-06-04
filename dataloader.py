@@ -8,7 +8,7 @@ class DataLoader(tf.keras.utils.Sequence):
         self.dataS = data
         self.labels = labels
         self.characters = characters
-        self.CTC=CTC
+        self.CTC=CTC # if you use build_model() function then pass True to CTC argument
 
 
     def __data_preprocess(self,images, labels,characters):
@@ -16,6 +16,7 @@ class DataLoader(tf.keras.utils.Sequence):
         Preprocess the images and labels.
         :param images: The images.
         :param labels: The labels.
+
         :return: The preprocessed images and labels.
         
             """
