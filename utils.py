@@ -148,11 +148,11 @@ class SelectCallbacks(keras.callbacks.Callback):
 
         
         if self.config['csv']:
-            self.callbacks.append(keras.callbacks.CSVLogger(os.path.join(self.config['csv_log_dir'], self.config['csv_log_name']), separator = ",", append = False))
+            self.callbacks.append(tf.keras.callbacks.CSVLogger(filename=['csv_log_dir']+self.config['csv_log_name']), separator = ",", append = False)
         if self.config['checkpoint']:
-            self.callbacks.append(keras.callbacks.ModelCheckpoint(filepath=self.config['checkpoint_dir']+"next_frame_prediction.hdf5", save_best_only = True))
+            self.callbacks.append(tf.keras.callbacks.ModelCheckpoint(filepath=self.config['checkpoint_dir']+"ocr_model.hdf5", save_best_only = True))
         if self.config['lr']:
-            self.callbacks.append(keras.callbacks.LearningRateScheduler(schedule = self.lr_scheduler))
+            self.callbacks.append(tf.keras.callbacks.LearningRateScheduler(schedule = self.lr_scheduler))
         
         
         

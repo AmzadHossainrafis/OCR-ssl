@@ -7,13 +7,14 @@ downsample_factor: 4
 
 epochs: 100
 batch_size: 16
-split_ratio: 0.8
+split_ratio: 0.9
 learning_rate: 0.001
+shuffle: False
 
-csv_log_dir: ./logs/csv
-checkpoint_dir: ./logs/checkpoints
+csv_log_dir: C:\Users\Amzad\Desktop\keras_project\OCR-ssl\logs\csv
+checkpoint_dir: C:\Users\Amzad\Desktop\keras_project\OCR-ssl\logs\weights
 csv_log_name: log.csv
-model_dir : 
+model_dir : C:\Users\Amzad\Desktop\keras_project\OCR-ssl\logs\weights\ocr.h5
 
 csv : True
 checkpoint : True
