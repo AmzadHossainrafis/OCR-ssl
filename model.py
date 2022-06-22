@@ -37,7 +37,7 @@ def build_model():
     x = layers.Bidirectional(layers.LSTM(64, return_sequences=True, dropout=0.25))(x)
 
     # Output layer
-    x = layers.Dense(50, activation="softmax", name="dense2")(x)
+    x = layers.Dense(20, activation="softmax", name="dense2")(x)
 
     # Add CTC layer for calculating CTC loss at each step
     output = CTCLayer(name="ctc_loss")(labels, x)
@@ -84,7 +84,8 @@ def build_model2():
     x = layers.Bidirectional(layers.LSTM(64, return_sequences=True, dropout=0.25))(x)
 
     # Output layer
-    output= layers.Dense(50, activation="softmax", name="dense2")(x)
+    # x= layers.Dense(50, activation="relu", name="dense2")(x)
+    output= layers.Dense(21, activation="softmax", name="dense3")(x)
     model = keras.models.Model(
         inputs=input_img, outputs=output, name="ocr_model_v1"
     )
